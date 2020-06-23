@@ -212,9 +212,21 @@ class Form extends Component {
                 <label htmlFor="">Sở thích:</label>
               </td>
               <td>
-                <input type="checkbox" value="soccer" defaultChecked={favorite.soccer} onClick={this.handleChangeSoccer}/> Đá bóng <br/>
-                <input type="checkbox" value="badminton" defaultChecked={favorite.badminton} onClick={this.handleChangeBadminton}/> Cầu lông <br/>
-                <input type="checkbox" value="sailing" defaultChecked={favorite.sailing} onClick={this.handleChangeSailing}/> Đua thuyền
+                <input
+                  type="checkbox"
+                  value="soccer"
+                  defaultChecked={favorite.soccer}
+                  onClick={this.handleChangeSoccer}/> Đá bóng <br/>
+                <input
+                  type="checkbox"
+                  value="badminton"
+                  defaultChecked={favorite.badminton}
+                  onClick={this.handleChangeBadminton}/> Cầu lông <br/>
+                <input
+                  type="checkbox"
+                  value="sailing"
+                  defaultChecked={favorite.sailing}
+                  onClick={this.handleChangeSailing}/> Đua thuyền
               </td>
             </tr>
             <tr>
