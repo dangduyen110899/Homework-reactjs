@@ -12,9 +12,9 @@ td,th {
   padding-left: 20px;
 }
 input {
-  width: 180px;  
+  width: 180px;
 }
-.input_r {
+input[type="radio"],input[type="checkbox"] {
   width: 20px;
 }
 textarea {

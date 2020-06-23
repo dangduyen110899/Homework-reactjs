@@ -10,149 +10,229 @@ class Form extends Component {
       pass: '',
       avatar: '',
       phone: '',
-      age: '1 tuổi',
-      gender: 'Nam',
-      favorite: [
-        {id: 1, value: "da bong", isChecked: false},
-        {id: 2, value: "cau long", isChecked: false},
-        {id: 3, value: "dua thuyen", isChecked: false},
-      ],
+      age: 1,
+      gender: 'male',
+      favorite: {
+        soccer: false,
+        badminton: false,
+        sailing: false
+      },
       note: "Buổi học đầu tiên về html"
     }
   }
-  handleChange = event => {
-    const value = event.target.value
+
+  handleChangeName = event => {
     this.setState({
-      // ...this.state,
-      [event.target.name]: value
+      name: event.target.value
     });
   }
-  handleChangeFavorite = event => {
-    let favorite = this.state.favorite
-    favorite.forEach(fvr => {
-       if (fvr.value === event.target.value)
-          fvr.isChecked =  event.target.checked
-    })
-    this.setState({favorite: favorite})
-    console.log(favorite)
-    //chỗ này em không hiểu sao mà ko set lại state được
+
+  handleChangeEmail = event => {
+    this.setState({
+      email: event.target.value
+    });
   }
+
+  handleChangePass = event => {
+    this.setState({
+      pass: event.target.value
+    });
+  }
+
+  handleChangeAvatar = event => {
+    this.setState({
+      avatar: event.target.value
+    });
+  }
+
+  handleChangePhone = event => {
+    this.setState({
+      phone: event.target.value
+    });
+  }
+
+  handleChangeAge = event => {
+    this.setState({
+      age: event.target.value
+    });
+  }
+
+  handleChangeGender = event => {
+    this.setState({
+      gender: event.target.value
+    });
+  }
+
+  handleChangeNote = event => {
+    this.setState({
+      note: event.target.value
+    });
+  }
+
+  handleChangeSoccer = event => {
+    this.setState(prevState => ({
+      soccer: !prevState.soccer,
+    }));
+  }
+
+  handleChangeBadminton = event => {
+    this.setState(prevState => ({
+      badminton: !prevState.badminton,
+    }));
+  }
+
+  handleChangeSailing = event => {
+    this.setState(prevState => ({
+      sailing: !prevState.sailing,
+    }));
+  }
+
   handleSubmit = event => {
-    // let favorite = this.state.favorite
-    // let str = ' '
-    // console.log(favorite)
-    // favorite.forEach((item,value) => {
-    //    if (item.isChecked === true)
-    //       str += value
-    // })
-    alert('Tên của bạn: ' + this.state.name + ' \n' +
-          'Số điện thoại: ' + this.state.phone + ' \n' +
-          'Email: ' + this.state.email + ' \n' +
-          'Mật khẩu: ' + this.state.pass + ' \n' +
-          'Tuổi: ' + this.state.age + ' \n' +
-          'Giới tính: ' + this.state.gender + ' \n' +
-          'Sở thích: ' + ' \n' +
-          'Ghi chú: ' + this.state.note + ' \n');
-     event.preventDefault();
+    const favorites = {
+      soccer: this.state.soccer,
+      badminton: this.state.badminton,
+      sailing: this.state.sailing
+    }
+    const object = {
+          name : this.state.name,
+          phone : this.state.phone,
+          email : this.state.email,
+          pass : this.state.pass,
+          avatar : this.state.avatar,
+          age : this.state.age,
+          gender : this.state.gender,
+          favorite: favorites,
+          note : this.state.note }
+    event.preventDefault();
+    console.log(object)
   }
+
   render(){
     const { name, email, pass, avatar, phone, age, gender, favorite, note } = this.state
     return(
       <div>
-        <form >
-          <h1>Đăng kí thành viên.</h1>
-          <table>
-              <thead>
-                  <tr>
-                      <th>Nội dung</th>
-                      <th>Giá trị</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                      <td>
-                          <label htmlFor="">Họ tên:</label>
-                      </td>
-                      <td>
-                          <input type="text" name="name" value = {name} onChange={this.handleChange} />
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>
-                          <label htmlFor="">Email:</label>
-                      </td>
-                      <td>
-                          <input type="email" name="email" value = {email} onChange={this.handleChange} />
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>
-                          <label htmlFor="">Mật khẩu:</label>
-                      </td>
-                      <td>
-                          <input type="password" name="pass" value={pass} onChange={this.handleChange} />
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>
-                          <label htmlFor="">Avatar:</label>
-                      </td>
-                      <td>
-                          <input type="file" name="file" value = {avatar} multiple onChange={this.handleChange} />
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>
-                          <label htmlFor="">Số điện thoại:</label>
-                      </td>
-                      <td>
-                          <input type="number" name="phone"value = {phone} onChange={this.handleChange} />
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>
-                          <label htmlFor="">Tuổi:</label>
-                      </td>
-                      <td>
-                          <select name = "age" value = {age} onChange={this.handleChange} >
-                              <option name="1 tuổi" value="1 tuổi">1 tuổi</option>
-                              <option name="2 tuổi" value="2 tuổi">2 tuổi</option>
-                              <option name="3 tuổi" value="3 tuổi">3 tuổi</option>
-                              <option name="4 tuổi" value="4 tuổi">4 tuổi</option>
-                          </select >
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>
-                          <label htmlFor="">Giới tính:</label>
-                      </td>
-                      <td>
-                          <input type="radio" name="gender" className="input_r" value="Nam" checked={gender === "Nam"} onChange={this.handleChange}/>Nam  <br/>
-                          <input type="radio" name="gender" className="input_r" value ="Nu"checked={gender === "Nu"} onChange={this.handleChange}/> Nữ 
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>
-                          <label htmlFor="">Sở thích:</label>
-                      </td>
-                      <td>
-                          <input key={favorite.id} type="checkbox" className="input_r" value={favorite.value} name={favorite.value} checked={favorite.isChecked} onClick={this.handleChangeFavorite}/> Đá bóng <br/>
-                          <input key={favorite.id} type="checkbox" className="input_r" value={favorite.value} namename={favorite.value} checked={favorite.isChecked} onClick={this.handleChangeFavorite}/> Cầu lông <br/>
-                          <input key={favorite.id} type="checkbox" className="input_r" value={favorite.value} name={favorite.value} checked={favorite.isChecked} onClick={this.handleChangeFavorite}/> Đua thuyền
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>
-                          <label htmlFor="">Ghi chú:</label>
-                      </td>
-                      <td>
-                          <textarea name="note" rows="3" cols="25" value={note} onChange={this.handleChange}/>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
-          <button type="submit" onClick={this.handleSubmit} >Đăng kí</button>
-        </form>
+        <h1>Đăng kí thành viên.</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Nội dung</th>
+              <th>Giá trị</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <label htmlFor="">Họ tên:</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={this.handleChangeName} />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="">Email:</label>
+              </td>
+              <td>
+                <input
+                  type="email"
+                  value = {email}
+                  onChange={this.handleChangeEmail} />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="">Mật khẩu:</label>
+              </td>
+              <td>
+                <input
+                  type="password"
+                  value={pass}
+                  onChange={this.handleChangePass} />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="">Avatar:</label>
+              </td>
+              <td>
+                <input
+                  type="file"
+                  value = {avatar}
+                  onChange={this.handleChangeAvatar} />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="">Số điện thoại:</label>
+              </td>
+              <td>
+                <input
+                  type="number"
+                  value = {phone}
+                  onChange={this.handleChangePhone} />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="">Tuổi:</label>
+              </td>
+              <td>
+                <select
+                  value = {age}
+                  onChange={this.handleChangeAge} >
+                  <option value="1">1 tuổi</option>
+                  <option value="2">2 tuổi</option>
+                  <option value="3">3 tuổi</option>
+                  <option value="4">4 tuổi</option>
+                </select >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="">Giới tính:</label>
+              </td>
+              <td>
+                <input
+                  type="radio"
+                  value="male"
+                  checked={gender === "male"}
+                  onChange={this.handleChangeGender}/>Nam<br/>
+                <input
+                  type="radio"
+                  value="female"
+                  checked={gender === "female"}
+                  onChange={this.handleChangeGender}/> Nữ
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="">Sở thích:</label>
+              </td>
+              <td>
+                <input type="checkbox" value="soccer" defaultChecked={favorite.soccer} onClick={this.handleChangeSoccer}/> Đá bóng <br/>
+                <input type="checkbox" value="badminton" defaultChecked={favorite.badminton} onClick={this.handleChangeBadminton}/> Cầu lông <br/>
+                <input type="checkbox" value="sailing" defaultChecked={favorite.sailing} onClick={this.handleChangeSailing}/> Đua thuyền
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="">Ghi chú:</label>
+              </td>
+              <td>
+                <textarea
+                  rows="3" cols="25"
+                  value={note}
+                  onChange={this.handleChangeNote}/>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button
+          type="submit"
+          onClick={this.handleSubmit}>Đăng kí</button>
       </div>
     );
   }
