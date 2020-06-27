@@ -29,13 +29,13 @@ class Form extends Component {
   }
 
   handleChangeFavorite = event => {
-    const name1 = event.target.checked
-    const value1 = event.target.value
+    const check = event.target.checked
+    const value = event.target.value
     let favorites = this.state.favorite
     for (const key in favorites) {
       if (favorites.hasOwnProperty(key)) {
-        if(key === value1) {
-          favorites[key] = name1
+        if(key === value) {
+          favorites[key] = check
         }
       }
     }
@@ -59,13 +59,16 @@ class Form extends Component {
       <form onSubmit={this.handleSubmit}>
         <h1>Đăng kí thành viên.</h1>
         <table>
+
           <thead>
             <tr>
               <th>Nội dung</th>
               <th>Giá trị</th>
             </tr>
           </thead>
+
           <tbody>
+
             <tr>
               <td>
                 <label htmlFor="">Họ tên:</label>
@@ -78,6 +81,7 @@ class Form extends Component {
                   onChange={this.handleChange} />
               </td>
             </tr>
+
             <tr>
               <td>
                 <label htmlFor="">Email:</label>
@@ -90,6 +94,7 @@ class Form extends Component {
                   onChange={this.handleChange} />
               </td>
             </tr>
+
             <tr>
               <td>
                 <label htmlFor="">Mật khẩu:</label>
@@ -102,6 +107,7 @@ class Form extends Component {
                   onChange={this.handleChange} />
               </td>
             </tr>
+
             <tr>
               <td>
                 <label htmlFor="">Avatar:</label>
@@ -114,6 +120,7 @@ class Form extends Component {
                   onChange={this.handleChange} />
               </td>
             </tr>
+
             <tr>
               <td>
                 <label htmlFor="">Số điện thoại:</label>
@@ -126,6 +133,7 @@ class Form extends Component {
                   onChange={this.handleChange} />
               </td>
             </tr>
+
             <tr>
               <td>
                 <label htmlFor="">Tuổi:</label>
@@ -142,6 +150,7 @@ class Form extends Component {
                 </select >
               </td>
             </tr>
+
             <tr>
               <td>
                 <label htmlFor="">Giới tính:</label>
@@ -161,6 +170,7 @@ class Form extends Component {
                   onChange={this.handleChange}/> Nữ
               </td>
             </tr>
+
             <tr>
               <td>
                 <label htmlFor="">Sở thích:</label>
@@ -183,6 +193,7 @@ class Form extends Component {
                   onClick={this.handleChangeFavorite}/> Đua thuyền
               </td>
             </tr>
+
             <tr>
               <td>
                 <label htmlFor="">Ghi chú:</label>
@@ -197,6 +208,7 @@ class Form extends Component {
               </td>
             </tr>
           </tbody>
+
         </table>
         <button type="submit" onSubmit={this.handleSubmit}>Đăng kí</button>
       </form >
