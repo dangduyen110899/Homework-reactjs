@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
+import axios from 'axios'
 
 class Form extends Component {
   constructor(props) {
@@ -21,96 +22,41 @@ class Form extends Component {
     }
   }
 
-  handleChangeName = event => {
+  handleChange = event => {
     this.setState({
-      name: event.target.value
+      [event.target.name]: event.target.value
     });
   }
 
-  handleChangeEmail = event => {
+  handleChangeFavorite = event => {
+    const name1 = event.target.checked
+    const value1 = event.target.value
+    let favorites = this.state.favorite
+    for (const key in favorites) {
+      if (favorites.hasOwnProperty(key)) {
+        if(key === value1) {
+          favorites[key] = name1
+        }
+      }
+    }
     this.setState({
-      email: event.target.value
+      favorite: favorites
     });
-  }
-
-  handleChangePass = event => {
-    this.setState({
-      pass: event.target.value
-    });
-  }
-
-  handleChangeAvatar = event => {
-    this.setState({
-      avatar: event.target.value
-    });
-  }
-
-  handleChangePhone = event => {
-    this.setState({
-      phone: event.target.value
-    });
-  }
-
-  handleChangeAge = event => {
-    this.setState({
-      age: event.target.value
-    });
-  }
-
-  handleChangeGender = event => {
-    this.setState({
-      gender: event.target.value
-    });
-  }
-
-  handleChangeNote = event => {
-    this.setState({
-      note: event.target.value
-    });
-  }
-
-  handleChangeSoccer = event => {
-    this.setState(prevState => ({
-      soccer: !prevState.soccer,
-    }));
-  }
-
-  handleChangeBadminton = event => {
-    this.setState(prevState => ({
-      badminton: !prevState.badminton,
-    }));
-  }
-
-  handleChangeSailing = event => {
-    this.setState(prevState => ({
-      sailing: !prevState.sailing,
-    }));
   }
 
   handleSubmit = event => {
-    const favorites = {
-      soccer: this.state.soccer,
-      badminton: this.state.badminton,
-      sailing: this.state.sailing
-    }
-    const object = {
-          name : this.state.name,
-          phone : this.state.phone,
-          email : this.state.email,
-          pass : this.state.pass,
-          avatar : this.state.avatar,
-          age : this.state.age,
-          gender : this.state.gender,
-          favorite: favorites,
-          note : this.state.note }
-    event.preventDefault();
-    console.log(object)
+    event.preventDefault()
+    axios.post(`https://jsonplaceholder.typicode.com/users`, this.state)
+      .then(res => {
+        console.log(res);
+      })
   }
 
   render(){
     const { name, email, pass, avatar, phone, age, gender, favorite, note } = this.state
     return(
-      <div>
+      <>
+      <form onSubmit={this.handleSubmit}>
         <h1>Đăng kí thành viên.</h1>
         <table>
           <thead>
@@ -127,8 +73,9 @@ class Form extends Component {
               <td>
                 <input
                   type="text"
+                  name="name"
                   value={name}
-                  onChange={this.handleChangeName} />
+                  onChange={this.handleChange} />
               </td>
             </tr>
             <tr>
@@ -138,8 +85,9 @@ class Form extends Component {
               <td>
                 <input
                   type="email"
+                  name="email"
                   value = {email}
-                  onChange={this.handleChangeEmail} />
+                  onChange={this.handleChange} />
               </td>
             </tr>
             <tr>
@@ -149,8 +97,9 @@ class Form extends Component {
               <td>
                 <input
                   type="password"
+                  name="pass"
                   value={pass}
-                  onChange={this.handleChangePass} />
+                  onChange={this.handleChange} />
               </td>
             </tr>
             <tr>
@@ -160,8 +109,9 @@ class Form extends Component {
               <td>
                 <input
                   type="file"
+                  name="avatar"
                   value = {avatar}
-                  onChange={this.handleChangeAvatar} />
+                  onChange={this.handleChange} />
               </td>
             </tr>
             <tr>
@@ -171,8 +121,9 @@ class Form extends Component {
               <td>
                 <input
                   type="number"
+                  name="phone"
                   value = {phone}
-                  onChange={this.handleChangePhone} />
+                  onChange={this.handleChange} />
               </td>
             </tr>
             <tr>
@@ -181,8 +132,9 @@ class Form extends Component {
               </td>
               <td>
                 <select
+                  name="age"
                   value = {age}
-                  onChange={this.handleChangeAge} >
+                  onChange={this.handleChange} >
                   <option value="1">1 tuổi</option>
                   <option value="2">2 tuổi</option>
                   <option value="3">3 tuổi</option>
@@ -197,14 +149,16 @@ class Form extends Component {
               <td>
                 <input
                   type="radio"
+                  name="gender"
                   value="male"
                   checked={gender === "male"}
-                  onChange={this.handleChangeGender}/>Nam<br/>
+                  onChange={this.handleChange}/>Nam<br/>
                 <input
                   type="radio"
+                  name="gender"
                   value="female"
                   checked={gender === "female"}
-                  onChange={this.handleChangeGender}/> Nữ
+                  onChange={this.handleChange}/> Nữ
               </td>
             </tr>
             <tr>
@@ -216,17 +170,17 @@ class Form extends Component {
                   type="checkbox"
                   value="soccer"
                   defaultChecked={favorite.soccer}
-                  onClick={this.handleChangeSoccer}/> Đá bóng <br/>
+                  onClick={this.handleChangeFavorite}/> Đá bóng<br/>
                 <input
                   type="checkbox"
                   value="badminton"
                   defaultChecked={favorite.badminton}
-                  onClick={this.handleChangeBadminton}/> Cầu lông <br/>
+                  onClick={this.handleChangeFavorite}/> Cầu lông<br/>
                 <input
                   type="checkbox"
                   value="sailing"
                   defaultChecked={favorite.sailing}
-                  onClick={this.handleChangeSailing}/> Đua thuyền
+                  onClick={this.handleChangeFavorite}/> Đua thuyền
               </td>
             </tr>
             <tr>
@@ -235,17 +189,18 @@ class Form extends Component {
               </td>
               <td>
                 <textarea
-                  rows="3" cols="25"
+                  rows="3"
+                  cols="25"
+                  name="note"
                   value={note}
-                  onChange={this.handleChangeNote}/>
+                  onChange={this.handleChange}/>
               </td>
             </tr>
           </tbody>
         </table>
-        <button
-          type="submit"
-          onClick={this.handleSubmit}>Đăng kí</button>
-      </div>
+        <button type="submit" onSubmit={this.handleSubmit}>Đăng kí</button>
+      </form >
+      </>
     );
   }
 }
