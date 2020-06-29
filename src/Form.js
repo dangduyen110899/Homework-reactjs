@@ -10,7 +10,7 @@ class Form extends Component {
       name: '',
       email: '',
       pass: '',
-      avatar: '',
+      avatar: [],
       phone: '',
       age: 1,
       gender: 'male',
@@ -25,9 +25,8 @@ class Form extends Component {
 
   handleOnChange = event => {
     if(event.target.type === 'file') {
-      let avatar = event.target.files[0]
       this.setState({
-        avatar: avatar
+        avatar: event.target.files[0]
       })
     }
     else {
@@ -54,10 +53,10 @@ class Form extends Component {
     for (const key in this.state) {
       if (this.state.hasOwnProperty(key)) {
         if(key === 'favorites') {
-          let favorites = ''
+          const favorites = []
           this.state.favorites.forEach(element => {
             if(element.isChecked === true) {
-              favorites = favorites + ' ' + element.value
+              favorites.push(element.id)
             }
           })
           formdata.append('favorites',favorites)
