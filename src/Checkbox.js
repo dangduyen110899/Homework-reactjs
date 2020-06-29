@@ -9,7 +9,7 @@ export const Checkbox = props => {
         onClick={props.handleCheckFavorite}
         type="checkbox"
         checked={props.isChecked}
-        value={props.value} /> {props.value}
+        value={props.value} /> {props.name}
     </li>
   )
 }

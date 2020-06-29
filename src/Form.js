@@ -15,9 +15,9 @@ class Form extends Component {
       age: 1,
       gender: 'male',
       favorites: [
-        {id: 1, value: "soccer", isChecked: false},
-        {id: 2, value: "badminton", isChecked: false},
-        {id: 3, value: "sailing", isChecked: false}
+        {id: 1, value: 'soccer', isChecked: false, name: 'Đá bóng'},
+        {id: 2, value: 'badminton', isChecked: false, name: 'Cầu lông'},
+        {id: 3, value: 'sailing', isChecked: false, name: 'Đua thuyền'}
       ],
       note: 'Buổi học đầu tiên về html'
     }
