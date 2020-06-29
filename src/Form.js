@@ -53,10 +53,21 @@ class Form extends Component {
     const formdata = new FormData()
     for (const key in this.state) {
       if (this.state.hasOwnProperty(key)) {
-        formdata.append(key,this.state[key])
+        if(key === 'favorites') {
+          let favorites = ''
+          this.state.favorites.forEach(element => {
+            if(element.isChecked === true) {
+              favorites = favorites + ' ' + element.value
+            }
+          })
+          formdata.append('favorites',favorites)
+        }
+        else {
+          formdata.append(key,this.state[key])
+        }
       }
     }
-    axios.post(`https://jsonplaceholder.typicode.com/formdata`,formdata)
+    axios.post(`http://167.99.77.218/api/reactjs`,formdata)
       .then(res => {
         console.log(res)
       })
@@ -66,7 +77,7 @@ class Form extends Component {
     const { name, email, pass, phone, age, gender, favorites, note } = this.state
     return(
       <>
-      <form onSubmit={this.handleOnSubmit}>
+      <form id="myForm" onSubmit={this.handleOnSubmit}>
         <h1>Đăng kí thành viên.</h1>
         <table>
           <thead>
