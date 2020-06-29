@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
 import axios from 'axios'
+import Checkbox from './Checkbox'
 
 class Form extends Component {
   constructor(props) {
@@ -13,53 +14,61 @@ class Form extends Component {
       phone: '',
       age: 1,
       gender: 'male',
-      favorite: {
-        soccer: false,
-        badminton: false,
-        sailing: false
-      },
-      note: "Buổi học đầu tiên về html"
+      favorites: [
+        {id: 1, value: "soccer", isChecked: false},
+        {id: 2, value: "badminton", isChecked: false},
+        {id: 3, value: "sailing", isChecked: false}
+      ],
+      note: 'Buổi học đầu tiên về html'
     }
   }
 
-  handleChange = event => {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
+  handleOnChange = event => {
+    if(event.target.type === 'file') {
+      let avatar = event.target.files[0]
+      this.setState({
+        avatar: avatar
+      })
+    }
+    else {
+      this.setState({
+        [event.target.name]: event.target.value
+      })
+    }
   }
 
-  handleChangeFavorite = event => {
-    const check = event.target.checked
-    const value = event.target.value
-    let favorites = this.state.favorite
-    for (const key in favorites) {
-      if (favorites.hasOwnProperty(key)) {
-        if(key === value) {
-          favorites[key] = check
-        }
+  handleCheckFavorite = event => {
+    let favorites = this.state.favorites
+    favorites.forEach(favorite => {
+      if (favorite.value === event.target.value)
+        favorite.isChecked =  event.target.checked
+    })
+    this.setState({
+      favorites: favorites
+    })
+  }
+
+  handleOnSubmit = event => {
+    event.preventDefault()
+    const formdata = new FormData()
+    for (const key in this.state) {
+      if (this.state.hasOwnProperty(key)) {
+        formdata.append(key,this.state[key])
       }
     }
-    this.setState({
-      favorite: favorites
-    });
-  }
-
-  handleSubmit = event => {
-    event.preventDefault()
-    axios.post(`https://jsonplaceholder.typicode.com/users`, this.state)
+    axios.post(`https://jsonplaceholder.typicode.com/formdata`,formdata)
       .then(res => {
-        console.log(res);
+        console.log(res)
       })
   }
 
   render(){
-    const { name, email, pass, avatar, phone, age, gender, favorite, note } = this.state
+    const { name, email, pass, phone, age, gender, favorites, note } = this.state
     return(
       <>
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleOnSubmit}>
         <h1>Đăng kí thành viên.</h1>
         <table>
-
           <thead>
             <tr>
               <th>Nội dung</th>
@@ -68,81 +77,79 @@ class Form extends Component {
           </thead>
 
           <tbody>
-
             <tr>
               <td>
-                <label htmlFor="">Họ tên:</label>
+                <label>Họ tên:</label>
               </td>
               <td>
                 <input
                   type="text"
                   name="name"
                   value={name}
-                  onChange={this.handleChange} />
+                  onChange={this.handleOnChange} />
               </td>
             </tr>
 
             <tr>
               <td>
-                <label htmlFor="">Email:</label>
+                <label>Email:</label>
               </td>
               <td>
                 <input
                   type="email"
                   name="email"
-                  value = {email}
-                  onChange={this.handleChange} />
+                  value={email}
+                  onChange={this.handleOnChange} />
               </td>
             </tr>
 
             <tr>
               <td>
-                <label htmlFor="">Mật khẩu:</label>
+                <label>Mật khẩu:</label>
               </td>
               <td>
                 <input
                   type="password"
                   name="pass"
                   value={pass}
-                  onChange={this.handleChange} />
+                  onChange={this.handleOnChange} />
               </td>
             </tr>
 
             <tr>
               <td>
-                <label htmlFor="">Avatar:</label>
+                <label>Avatar:</label>
               </td>
               <td>
                 <input
                   type="file"
                   name="avatar"
-                  value = {avatar}
-                  onChange={this.handleChange} />
+                  onChange={this.handleOnChange} multiple />
               </td>
             </tr>
 
             <tr>
               <td>
-                <label htmlFor="">Số điện thoại:</label>
+                <label>Số điện thoại:</label>
               </td>
               <td>
                 <input
                   type="number"
                   name="phone"
-                  value = {phone}
-                  onChange={this.handleChange} />
+                  value={phone}
+                  onChange={this.handleOnChange} />
               </td>
             </tr>
 
             <tr>
               <td>
-                <label htmlFor="">Tuổi:</label>
+                <label>Tuổi:</label>
               </td>
               <td>
                 <select
                   name="age"
-                  value = {age}
-                  onChange={this.handleChange} >
+                  value={age}
+                  onChange={this.handleOnChange} >
                   <option value="1">1 tuổi</option>
                   <option value="2">2 tuổi</option>
                   <option value="3">3 tuổi</option>
@@ -153,7 +160,7 @@ class Form extends Component {
 
             <tr>
               <td>
-                <label htmlFor="">Giới tính:</label>
+                <label>Giới tính:</label>
               </td>
               <td>
                 <input
@@ -161,42 +168,36 @@ class Form extends Component {
                   name="gender"
                   value="male"
                   checked={gender === "male"}
-                  onChange={this.handleChange}/>Nam<br/>
+                  onChange={this.handleOnChange}/>Nam<br/>
                 <input
                   type="radio"
                   name="gender"
                   value="female"
                   checked={gender === "female"}
-                  onChange={this.handleChange}/> Nữ
+                  onChange={this.handleOnChange}/> Nữ
               </td>
             </tr>
 
             <tr>
               <td>
-                <label htmlFor="">Sở thích:</label>
+                <label>Sở thích:</label>
               </td>
               <td>
-                <input
-                  type="checkbox"
-                  value="soccer"
-                  defaultChecked={favorite.soccer}
-                  onClick={this.handleChangeFavorite}/> Đá bóng<br/>
-                <input
-                  type="checkbox"
-                  value="badminton"
-                  defaultChecked={favorite.badminton}
-                  onClick={this.handleChangeFavorite}/> Cầu lông<br/>
-                <input
-                  type="checkbox"
-                  value="sailing"
-                  defaultChecked={favorite.sailing}
-                  onClick={this.handleChangeFavorite}/> Đua thuyền
+                {
+                  favorites.map((favorite) => {
+                    return (
+                      <Checkbox
+                        handleCheckFavorite={this.handleCheckFavorite}
+                        {...favorite} />
+                    )
+                  })
+                }
               </td>
             </tr>
 
             <tr>
               <td>
-                <label htmlFor="">Ghi chú:</label>
+                <label>Ghi chú:</label>
               </td>
               <td>
                 <textarea
@@ -204,16 +205,17 @@ class Form extends Component {
                   cols="25"
                   name="note"
                   value={note}
-                  onChange={this.handleChange}/>
+                  onChange={this.handleOnChange}/>
               </td>
             </tr>
           </tbody>
-
         </table>
-        <button type="submit" onSubmit={this.handleSubmit}>Đăng kí</button>
+        <button
+          type="submit"
+          onSubmit={this.handleOnSubmit}>Đăng kí</button>
       </form >
       </>
-    );
+    )
   }
 }
 
