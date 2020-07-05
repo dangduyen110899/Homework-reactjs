@@ -2,32 +2,76 @@ import React, { Component } from 'react'
 import './App.css'
 import axios from 'axios'
 import Checkbox from './Checkbox'
+import Input from './Input'
+
 
 class Form extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: '',
-      email: '',
-      pass: '',
+      name: {
+        name: 'name',
+        type: 'text',
+        value: ''
+      },
+      email: {
+        name: 'email',
+        type: 'email',
+        value: ''
+      },
+      pass: {
+        name: 'pass',
+        type: 'password',
+        value: ''
+      },
       avatar: [],
-      phone: '',
+      phone: {
+        name: 'phone',
+        type: 'number',
+        value: ''
+      },
       age: 1,
-      gender: 'male',
+      gender: {
+        name: 'gender',
+        type: 'radio',
+        value: 'male'
+      },
       favorites: [
-        {id: 1, value: 'soccer', isChecked: false, name: 'Đá bóng'},
-        {id: 2, value: 'badminton', isChecked: false, name: 'Cầu lông'},
-        {id: 3, value: 'sailing', isChecked: false, name: 'Đua thuyền'}
+        {
+          id: 1,
+          value: 'soccer',
+          isChecked: false,
+          name: 'Đá bóng'
+        },
+        {
+          id: 2,
+          value: 'badminton',
+          isChecked: false,
+          name: 'Cầu lông'
+        },
+        {
+          id: 3,
+          value: 'sailing',
+          isChecked: false,
+          name: 'Đua thuyền'
+        }
       ],
-      note: 'Buổi học đầu tiên về html'
+      note: 'Buoi hoc dau tien'
     }
   }
 
   handleOnChange = event => {
-    if(event.target.type === 'file') {
+     if(event.target.type === 'file') {
       this.setState({
         avatar: event.target.files[0]
       })
+    }
+    else if(event.target.nodeName === 'INPUT') {
+      let inputValue = event.target.value
+      let inputName = event.target.name
+      let statusCopy = Object.assign({}, this.state)
+      statusCopy[inputName].value = inputValue
+      this.setState(statusCopy)
     }
     else {
       this.setState({
@@ -61,8 +105,11 @@ class Form extends Component {
           })
           formdata.append('favorites',favorites)
         }
-        else {
+        else if(key === 'avatar' || key === 'note' || key === 'age') {
           formdata.append(key,this.state[key])
+        }
+        else {
+          formdata.append(key,this.state[key].value)
         }
       }
     }
@@ -92,11 +139,9 @@ class Form extends Component {
                 <label>Họ tên:</label>
               </td>
               <td>
-                <input
-                  type="text"
-                  name="name"
-                  value={name}
-                  onChange={this.handleOnChange} />
+                <Input
+                  {...name}
+                  handleOnChange={this.handleOnChange} />
               </td>
             </tr>
 
@@ -105,11 +150,9 @@ class Form extends Component {
                 <label>Email:</label>
               </td>
               <td>
-                <input
-                  type="email"
-                  name="email"
-                  value={email}
-                  onChange={this.handleOnChange} />
+                <Input
+                  {...email}
+                  handleOnChange={this.handleOnChange} />
               </td>
             </tr>
 
@@ -118,11 +161,9 @@ class Form extends Component {
                 <label>Mật khẩu:</label>
               </td>
               <td>
-                <input
-                  type="password"
-                  name="pass"
-                  value={pass}
-                  onChange={this.handleOnChange} />
+                <Input
+                  {...pass}
+                  handleOnChange={this.handleOnChange} />
               </td>
             </tr>
 
@@ -134,7 +175,7 @@ class Form extends Component {
                 <input
                   type="file"
                   name="avatar"
-                  onChange={this.handleOnChange} multiple />
+                  onChange={this.handleOnChange} />
               </td>
             </tr>
 
@@ -143,11 +184,9 @@ class Form extends Component {
                 <label>Số điện thoại:</label>
               </td>
               <td>
-                <input
-                  type="number"
-                  name="phone"
-                  value={phone}
-                  onChange={this.handleOnChange} />
+                <Input
+                  {...phone}
+                  handleOnChange={this.handleOnChange} />
               </td>
             </tr>
 
@@ -160,10 +199,10 @@ class Form extends Component {
                   name="age"
                   value={age}
                   onChange={this.handleOnChange} >
-                  <option value="1">1 tuổi</option>
-                  <option value="2">2 tuổi</option>
-                  <option value="3">3 tuổi</option>
-                  <option value="4">4 tuổi</option>
+                    <option value="1">1 tuổi</option>
+                    <option value="2">2 tuổi</option>
+                    <option value="3">3 tuổi</option>
+                    <option value="4">4 tuổi</option>
                 </select >
               </td>
             </tr>
@@ -173,18 +212,16 @@ class Form extends Component {
                 <label>Giới tính:</label>
               </td>
               <td>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="male"
-                  checked={gender === "male"}
-                  onChange={this.handleOnChange}/>Nam<br/>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="female"
-                  checked={gender === "female"}
-                  onChange={this.handleOnChange}/> Nữ
+                <Input
+                  {...gender}
+                  genderName='Nam'
+                  checked={gender.value === "male"}
+                  handleOnChange={this.handleOnChange} />
+                <Input
+                  {...gender}
+                  genderName='Nữ'
+                  checked={gender.value === "male"}
+                  handleOnChange={this.handleOnChange} />
               </td>
             </tr>
 
